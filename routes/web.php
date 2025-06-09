@@ -5,8 +5,10 @@ use App\Http\Controllers\AnneScolaireController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\EleveController;
+use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\PaiementController;
+use App\Http\Controllers\PaiementEnseignantController;
 use App\Http\Controllers\UtilisateurController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +30,9 @@ use Illuminate\Support\Facades\Route;
 
     Route::get('accueil', [AccueilController::class, 'index'])->name('accueil.index');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/profil', [AccueilController::class, 'profil'])->name('accueil.profil');
+    Route::post('/change-password', [AccueilController::class, 'updatePassword'])->name('password.update');
+
 
     // Utilisateur
     Route::prefix('Utilisateur')->group(function () {
@@ -59,12 +64,19 @@ use Illuminate\Support\Facades\Route;
 
    // NOUVEAU ELEVE
     Route::prefix('eleve')->group(function () {
-
         Route::get('/index', [EleveController::class, 'index'])->name('eleve.index');
         Route::post('/create', [EleveController::class, 'store'])->name('eleve.store');
         Route::put('/update/{eleve}', [EleveController::class, 'update'])->name('eleve.update');
         Route::delete('delete/{eleve}', [EleveController::class, 'delete'])->name('eleve.delete');
-   
+   });
+
+   // NOUVEAU Enseignants
+    Route::prefix('enseignant')->group(function () {
+        Route::get('/index', [EnseignantController::class, 'index'])->name('enseignant.index');
+        Route::get('/show/{enseignant}', [EnseignantController::class, 'show'])->name('enseignant.show');
+        Route::post('/create', [EnseignantController::class, 'store'])->name('enseignant.store');
+        Route::put('/update/{enseignant}', [EnseignantController::class, 'update'])->name('enseignant.update');
+        Route::delete('delete/{enseignant}', [EnseignantController::class, 'delete'])->name('enseignant.delete');
    });
 
 
@@ -82,7 +94,16 @@ use Illuminate\Support\Facades\Route;
         Route::get('/index', [PaiementController::class, 'index'])->name('paiement.index');
         Route::post('/create', [PaiementController::class, 'store'])->name('paiement.store');
         Route::get('/annuler',[PaiementController::class, 'annuler'])->name('paiement.annuler');
+        Route::get('/print/{paiement}', [PaiementController::class, 'download'])->name('paiement.download');
+   });
 
+
+   // Enseignant paiement
+    Route::prefix('paiement/enseignant')->group(function () {
+        Route::get('/index', [PaiementEnseignantController::class, 'index'])->name('paiement.enseignant.index');
+        Route::post('/create', [PaiementEnseignantController::class, 'store'])->name('paiement.enseignant.store');
+        Route::get('/annuler',[PaiementEnseignantController::class, 'annuler'])->name('paiement.enseignant.annuler');
+        Route::get('/print/{paiement}', [PaiementEnseignantController::class, 'download'])->name('paiement.enseignant.download');
    });
 
  });

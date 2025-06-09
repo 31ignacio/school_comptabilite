@@ -74,14 +74,14 @@
                                                 <tr>
                                                     <td>{{ $inscription['eleve']->nom }} {{ $inscription['eleve']->prenom }}</td>
                                                     <td>{{ $inscription['classe'] }}</td>
-                                                    <td>{{ number_format($inscription['montantPaye'] ?? '0', 0, ',', '.') }}</td>
-                                                    <td>{{ number_format($inscription['scolariteTotale'] ?? '0', 0, ',', '.') }}</td>
+                                                    <td>{{ number_format($inscription['montantPaye'] ?? '0', 0, ',', '.') }} F</td>
+                                                    <td>{{ number_format($inscription['scolariteTotale'] ?? '0', 0, ',', '.') }} F</td>
                                                    <td class="
                                                         @if($inscription['resteAPayer'] == 0) bg-success text-white
                                                         @elseif($inscription['resteAPayer'] > 0 && $inscription['resteAPayer'] <= ($inscription['scolariteTotale'] * 0.3)) bg-warning text-dark
                                                         @else bg-danger text-white
                                                         @endif">
-                                                        {{ number_format($inscription['resteAPayer'] ?? '0', 0, ',', '.') }}
+                                                        {{ number_format($inscription['resteAPayer'] ?? '0', 0, ',', '.') }} F
                                                     </td>
                                                     <td class="
                                                         @if($inscription['solde'] == 'Soldé') bg-success text-white
@@ -96,6 +96,7 @@
                                                         <button class="btn-sm btn-warning m-1" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
                                                             <i class="fas fa-edit"></i> Éditer
                                                         </button>
+                                                        @if(auth()->user()->role_id== 1)
                                                         <form action="{{ route('inscription.delete', ['inscription' => $inscription['id']]) }}" method="POST" style="display: inline;">
                                                             @csrf
                                                             @method('DELETE')
@@ -103,6 +104,7 @@
                                                                 <i class="fas fa-trash-alt"></i> Supprimer
                                                             </button>
                                                         </form>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach               

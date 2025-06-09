@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AnneScolaire;
-use App\Models\Classe;
-use App\Models\Eleve;
 use App\Models\Inscription;
 use App\Models\Paiement;
 use Exception;
+//use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 use Illuminate\Http\Request;
 
 class PaiementController extends Controller
@@ -36,7 +36,7 @@ class PaiementController extends Controller
                     'montantPayer' => $request->montant,
                     'inscription_id' => $request->inscription,
                     'ResteAPayer' => $resteAPayer - $request->montant,
-                    'user_id' => auth()->id() ?? 2, // adapte selon ton auth
+                    'user_id' => auth()->id() // adapte selon ton auth
                 ]);
 
                 return redirect()->back()->with('success_message', 'Paiement enregistré avec succès.');
@@ -70,5 +70,28 @@ class PaiementController extends Controller
         return back()->with('success_message', 'Le paiement a été annulé avec succès.');
     }
 
+    /**
+     * Imprimer une quittance
+     */
+    public function download(Paiement $paiement)
+    {
+        try {
+
+            $fullPaymentInfo = Paiement::find($paiement->id);
+
+            $nom=$fullPaymentInfo->inscription->eleve->nom;
+            $prenom=$fullPaymentInfo->inscription->eleve->prenom;
+            $classe=$fullPaymentInfo->inscription->classe->nom;
+            $annee=$fullPaymentInfo->inscription->anneScolaire->annee;
+
+            $MontantPayer = Paiement::where('inscription_id', $fullPaymentInfo->inscription->id)->sum('montantPayer');
+
+            $pdf = PDF::loadView('facture', compact('fullPaymentInfo','MontantPayer'));
+            $nomFichier = $annee . '_' . $classe . '_' . $nom . '_' . $prenom . '.pdf';
+            return $pdf->download($nomFichier);
+        } catch (Exception $e) {
+            return back()->with('error_message', "Une erreur est survenue : " . $e->getMessage());
+        }
+    }
 
 }

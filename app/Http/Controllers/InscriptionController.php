@@ -14,36 +14,9 @@ class InscriptionController extends Controller
 {
     //
 
-    /**
-     * Afficher la liste des eleves
-    */
-    // public function index()
-    // {
-    //     // 1. Dernière année scolaire
-    //     $derniereAnnee = AnneScolaire::orderByDesc('created_at')->first();
-
-    //     // 2. Inscriptions pour la classe 1 et la dernière année
-    //     $inscriptions = Inscription::where('classe_id', 1)
-    //     ->where('annee_id', $derniereAnnee->id)
-    //     ->orderBy('created_at', 'desc')
-    //     ->get();
-
-    //     // 2. ID des élèves déjà inscrits pour cette année
-    //     $elevesInscrits = Inscription::where('annee_id', $derniereAnnee->id)
-    //         ->pluck('eleve_id')
-    //         ->toArray();
-    //     // 3. Élèves non inscrits
-    //     $elevesNonInscrits = Eleve::whereNotIn('id', $elevesInscrits)->get();
-    //     $classes = Classe::all();
-    //     $annees = AnneScolaire::all();
-
-    //     return view('eleve.inscription.index', compact('inscriptions', 'classes', 'annees','derniereAnnee','elevesNonInscrits'));
-    // }
-
-
     public function index(Request $request){
 
-          // Récupération des paramètres de filtrage
+        // Récupération des paramètres de filtrage
         $classeId = $request->input('classe_id', 1);
         $anneeId = $request->input('annee_id');
 
@@ -88,7 +61,7 @@ class InscriptionController extends Controller
         // 3. Élèves non inscrits
         $elevesNonInscrits = Eleve::whereNotIn('id', $elevesInscrits)->get();
 
-    return view('eleve.inscription.index', compact('inscriptions', 'classeId', 'anneeId', 'classes', 'annees','elevesNonInscrits','derniereAnne'));
+        return view('eleve.inscription.index', compact('inscriptions', 'classeId', 'anneeId', 'classes', 'annees','elevesNonInscrits','derniereAnne'));
 
     }
 
@@ -144,8 +117,6 @@ class InscriptionController extends Controller
         
         return view('eleve.inscription.show', compact('inscription','paiements','id','MontantPayer'));
     }
-
-
     
     /**
      * Supprimer un eleve

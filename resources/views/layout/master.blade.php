@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Otika - Admin Dashboard Template</title>
+  <title>SCHOOL | EDUCATION</title>
   <!-- General CSS Files -->
   <link rel="stylesheet" href="{{ asset('assets/css/app.min.css') }}">
   
@@ -67,11 +67,11 @@
             </div>
           </li>
           <li class="dropdown"><a href="#" data-toggle="dropdown"
-              class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="{{ asset('assets/img/user.png') }}"
+              class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="{{ asset('assets/img/users/user.jpg') }}""
                 class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right pullDown">
               <div class="dropdown-title"> {{ auth()->user()->name }}</div>
-              <a href="" class="dropdown-item has-icon"> <i class="far fa-user"></i> Profile
+              <a href="{{ route('accueil.profil') }}" class="dropdown-item has-icon"> <i class="far fa-user"></i> Profile
               </a> 
               <div class="dropdown-divider"></div>
               <a href="{{route('logout')}}" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
@@ -93,21 +93,32 @@
             <li class="dropdown">
               <a href="{{ route('accueil.index') }}" class="nav-link"><i data-feather="monitor"></i><span>Accueil</span></a>
             </li>
-             <li class="dropdown">
-              <a href="{{ route('user.index') }}" class="nav-link"> <i data-feather="user"></i><span>Utilisateurs</span></a>
-            </li>
-            <li class="dropdown">
-              <a href="{{ route('classe.index') }}" class="nav-link"> <i data-feather="layers"></i><span>Gestion des classes</span></a>
-            </li>
-            <li class="dropdown">
-              <a href="{{ route('annee.index') }}" class="nav-link"><i data-feather="calendar"></i><span>Année scolaire</span></a>
-            </li>
+            @if(auth()->user()->role_id== 1)
+              <li class="dropdown">
+                <a href="{{ route('user.index') }}" class="nav-link"> <i data-feather="user"></i><span>Utilisateurs</span></a>
+              </li>
+              <li class="dropdown">
+                <a href="{{ route('classe.index') }}" class="nav-link"> <i data-feather="layers"></i><span>Gestion des classes</span></a>
+              </li>
+              <li class="dropdown">
+                <a href="{{ route('annee.index') }}" class="nav-link"><i data-feather="calendar"></i><span>Année scolaire</span></a>
+              </li>
+            @endif
             <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="users"></i>
                 <span>Fiche élèves</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="{{ route('eleve.index') }}">Enregistrer un nouveau élève</a></li>
                 <li><a class="nav-link" href="{{ route('inscription.index') }}">Liste des élève par classe</a></li>
+              </ul>
+            </li>
+
+             <li class="dropdown">
+              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="user-plus"></i>
+                <span>Fiche Enseignants</span></a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link" href="{{ route('enseignant.index') }}">Liste des enseignants</a></li>
+                {{-- <li><a class="nav-link" href="{{ route('inscription.index') }}">Liste des élève par classe</a></li> --}}
               </ul>
             </li>
             

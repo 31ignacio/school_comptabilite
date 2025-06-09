@@ -6,12 +6,12 @@
 <div class="main-content">
     <section class="section">
         <nav aria-label="breadcrumb">
-                      <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#"><i class="fas fa-tachometer-alt"></i> Accueil</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('inscription.index') }}"><i class="far fa-file"></i> Liste des élèves par classe</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-list"></i> Détails</li>
-                      </ol>
-                    </nav>
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('accueil.index') }}"><i class="fas fa-tachometer-alt"></i> Accueil</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('inscription.index') }}"><i class="far fa-file"></i> Liste des élèves par classe</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-list"></i> Détails</li>
+            </ol>
+        </nav>
         <div class="section-body">
             <div class="row">
 
@@ -28,15 +28,16 @@
                                 <li class="list-group-item"><strong>Classe :</strong> {{ $inscription->classe->nom ?? '-' }}</li>
                                 <li class="list-group-item"><strong>Année scolaire :</strong> {{ $inscription->anneScolaire->annee ?? '-' }}</li>
                                 <li class="list-group-item"><strong>Téléphone Parent :</strong> {{ $inscription->eleve->telephoneParent ?? '-' }}</li>
-                                <li class="list-group-item"><strong>Scolarité :</strong> {{ number_format($inscription->classe->scolarite, 0, ',', '.') }} F</li>
-                                <li class="list-group-item"><strong>Montant Payé :</strong> {{ number_format($MontantPayer ?? '0', 0, ',', '.') }} F</li>
-                                <li class="list-group-item"><strong>Reste à payer :</strong> {{ number_format($inscription->classe->scolarite - $MontantPayer  ?? '0', 0, ',', '.') }} F</li>
+                                <li class="list-group-item"><strong>Scolarité :</strong> <span class="badge badge-success">{{ number_format($inscription->classe->scolarite, 0, ',', '.') }} F</span></li>
+                                <li class="list-group-item"><strong>Montant Payé :</strong> <span class="badge badge-warning">{{ number_format($MontantPayer ?? '0', 0, ',', '.') }} F</span></li>
+                                <li class="list-group-item"><strong>Reste à payer :</strong> <span class="badge badge-danger">{{ number_format($inscription->classe->scolarite - $MontantPayer  ?? '0', 0, ',', '.') }} F</span></li>
 
-                                <li class="list-group-item"><strong>Statut :</strong> @if($inscription->classe->scolarite == $MontantPayer )
-                                                            <b class="text-success">Soldé</b>
-                                                        @else
-                                                            <b class="text-danger">Reste à soldé</b>
-                                                        @endif
+                                <li class="list-group-item"><strong>Statut :</strong> 
+                                    @if($inscription->classe->scolarite == $MontantPayer )
+                                        <b class="text-success">Soldé</b>
+                                    @else
+                                        <b class="text-danger">Reste à soldé</b>
+                                    @endif
                                 </li>
                             </ul>
                         </div>
@@ -61,7 +62,6 @@
                                             <th>#</th>
                                             <th>Date</th>
                                             <th>Montant payé</th>
-                                            <th>Reste à payé</th>
                                             <th>Comptable</th>
                                             <th>Annuler</th>
                                         </tr>
@@ -72,16 +72,20 @@
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($paiement->created_at)->format('d/m/Y') }}</td>
                                                 <td>{{ number_format($paiement->montantPayer, 0, ',', ' ') }}</td>
-                                                <td>{{ number_format($paiement->ResteAPayer, 0, ',', ' ') }} F</td>
                                                 <td>{{ $paiement->user->name }}</td>
                                                 <td>
-                                                    @if ($index === 0)
-                                                        <a href="#" class="btn-sm btn-danger" data-toggle="modal"
-                                                            data-target="#confirmationModal"
-                                                            onclick="updateModal('{{ $paiement->id }}')">
+                                                    <a class="btn-sm btn-info m-2"
+                                                        href="{{ route('paiement.download', $paiement->id) }}"
+                                                        title="Imprimer la quittance">
+                                                        <i class="fas fa-print"></i>Imprimer
+                                                    </a>
+                                                    @if(auth()->user()->role_id== 1)
+                                                        <a href="#" class="btn-sm btn-danger" title="Annuler la quittance" data-toggle="modal"
+                                                            data-target="#confirmationModal" onclick="updateModal('{{ $paiement->id }}')">
                                                             <i class="fas fa-times-circle me-1"></i> Annuler
                                                         </a>
                                                     @endif
+                                                    
                                                 </td>
                                             </tr>
                                         @empty
