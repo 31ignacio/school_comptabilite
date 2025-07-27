@@ -90,7 +90,7 @@
                                                         {{ $inscription['solde'] }}
                                                     </td>
                                                     <td>
-                                                        <a href="{{ route('inscription.show', ['inscription' => $inscription['id']]) }}" class="btn-sm btn-info m-1" href="#">
+                                                        <a href="{{ route('inscription.show', ['inscription' => $inscription['id']]) }}" class="btn-sm btn-info m-1">
                                                             <i class="fas fa-eye"></i> Détails
                                                         </a>
                                                         <button class="btn-sm btn-warning m-1" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">

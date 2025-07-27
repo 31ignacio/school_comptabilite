@@ -40,10 +40,8 @@ use Illuminate\Support\Facades\Route;
         Route::post('/create', [UtilisateurController::class, 'store'])->name('user.store');
         Route::put('/update/{user}', [UtilisateurController::class, 'update'])->name('user.update');
         Route::delete('delete/{user}', [UtilisateurController::class, 'delete'])->name('user.delete');
-        Route::PATCH('/toggleStatus/{user}', [UtilisateurController::class, 'toggleStatus'])->name('user.toggleStatus');
         Route::get('/detail/{user}', [UtilisateurController::class, 'detail'])->name('user.detail');
-
-
+        Route::post('/user/toggle/{user}', [UtilisateurController::class, 'toggleStatus'])->name('user.toggle');
    });
 
     Route::prefix('classe')->group(function () {
@@ -105,5 +103,11 @@ use Illuminate\Support\Facades\Route;
         Route::get('/annuler',[PaiementEnseignantController::class, 'annuler'])->name('paiement.enseignant.annuler');
         Route::get('/print/{paiement}', [PaiementEnseignantController::class, 'download'])->name('paiement.enseignant.download');
    });
+
+   Route::get('/notifications/mark-all-read', function () {
+        auth()->user()->unreadNotifications->markAsRead();
+        return redirect()->back();
+    })->name('notifications.markAllRead');
+
 
  });

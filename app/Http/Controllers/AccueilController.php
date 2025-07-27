@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnneScolaire;
-use App\Models\Eleve;
+use App\Models\Classe;
 use App\Models\Inscription;
+use App\Models\Paiement;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Hash;
 class AccueilController extends Controller
 {
     
-    public function index()
+    public function index(Request $request)
     {
 
         // Récupérer l'année la plus récente
@@ -22,11 +23,48 @@ class AccueilController extends Controller
 
         if ($annee) {
             $nombreEleves = Inscription::where('annee_id', $annee->id)->count();
+            $nombreUtilisateur = User::all()->count();
+
         } else {
             $nombreEleves = 0; // Aucune année enregistrée
+            $nombreUtilisateur =0;
         }
+
+        // Récupération des paramètres
+        $classeId = $request->input('classe_id', 1);
+        $anneeId = $request->input('annee_id',$annee->id);
+
+        // Récupération des inscriptions
+        $inscriptions = Inscription::where('annee_id', $anneeId)
+            ->whereHas('classe', function ($query) use ($classeId) {
+                $query->where('id', $classeId);
+            })
+            ->with(['eleve', 'classe'])
+            ->get()
+            ->map(function ($inscription) {
+                $montantPaye = Paiement::where('inscription_id', $inscription->id)->sum('montantPayer');
+                $scolariteTotale = $inscription->classe->scolarite;
+                $reste = $scolariteTotale - $montantPaye;
+
+                return [
+                    'id' => $inscription->id,
+                    'eleve' => $inscription->eleve,
+                    'classe' => $inscription->classe->nom,
+                    'montantPaye' => $montantPaye,
+                    'scolariteTotale' => $scolariteTotale,
+                    'resteAPayer' => $reste,
+                    'solde' => $reste <= 0 ? 'Soldé' : 'Non soldé',
+                ];
+            });
+
+        // Filtrage
+        $nonSoldes = $inscriptions->filter(fn($i) => $i['solde'] === 'Non soldé');
+        $nbNonSoldes = $nonSoldes->count();
+        $nbSoldes = $inscriptions->count() - $nbNonSoldes;
+
+        $classes = Classe::all();
         
-        return view('accueil.index',compact('nombreEleves','annee'));
+        return view('accueil.index',compact('classeId','classes','anneeId','nombreUtilisateur','nombreEleves','annee','nbNonSoldes','nbSoldes','nonSoldes'));
     }
 
 

@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Inscription;
 use App\Models\Paiement;
+use App\Models\User;
+use App\Notifications\AdminPaiementEleveNotification;
 use Exception;
 //use PDF;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PaiementController extends Controller
 {
@@ -32,12 +35,19 @@ class PaiementController extends Controller
 
             // Vérification
             if ($request->montant <= $resteAPayer) {
-                Paiement::create([
+               $paiement= Paiement::create([
                     'montantPayer' => $request->montant,
                     'inscription_id' => $request->inscription,
                     'ResteAPayer' => $resteAPayer - $request->montant,
                     'user_id' => auth()->id() // adapte selon ton auth
                 ]);
+
+                $admins = User::where('role_id', 1)->get();
+
+               foreach ($admins as $admin) {
+                    $admin->notify(new AdminPaiementEleveNotification($paiement));
+                }
+
 
                 return redirect()->back()->with('success_message', 'Paiement enregistré avec succès.');
             } else {
@@ -45,6 +55,7 @@ class PaiementController extends Controller
             }
 
         } catch (Exception $e) {
+            dd($e);
             return back()->with('error_message', "Une erreur est survenue : " . $e->getMessage());
         }
     }

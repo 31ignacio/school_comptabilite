@@ -31,33 +31,41 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($users as $user )
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>
-                                                @if($user->role->role == "ADMIN")
-                                                    <b class="badge badge-success">ADMIN</b>
-                                                @else 
-                                                    <b class="badge badge-primary">COMPTABLE</b>
-                                                @endif
-                                            </td>
-                                            <td>{{ $user->telephone }}</td>
-                                            <td>
-                                                <a class="btn-sm btn-warning m-3" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
-                                                    <i class="fas fa-edit"></i> Editer
-                                                </a>
+    <tr>
+        <td>{{ $loop->iteration }}</td>
+        <td>{{ $user->name }}</td>
+        <td>{{ $user->email }}</td>
+        <td>
+            @if($user->role->role == "ADMIN")
+                <b class="badge badge-success">ADMIN</b>
+            @else 
+                <b class="badge badge-primary">COMPTABLE</b>
+            @endif
+        </td>
+        <td>{{ $user->telephone }}</td>
+        <td>
+            <a class="btn-sm btn-warning m-1" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
+                <i class="fas fa-edit"></i> Editer
+            </a>
 
-                                                <form action="{{ route('user.delete', ['user' => $user->id]) }}" method="POST" style="display: inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
-                                                        <i class="fas fa-trash-alt"></i> Supprimer
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+            <form action="{{ route('user.delete', ['user' => $user->id]) }}" method="POST" style="display: inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn-sm btn-danger m-1" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
+                    <i class="fas fa-trash-alt"></i> Supprimer
+                </button>
+            </form>
+
+            <form action="{{ route('user.toggle', ['user' => $user->id]) }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="btn-sm btn-secondary m-1" onclick="return confirm('Êtes-vous sûr de vouloir {{ $user->estActif ? 'désactiver' : 'activer' }} cet utilisateur ?')">
+                    <i class="fas fa-power-off"></i> {{ $user->estActif ? 'Désactiver' : 'Activer' }}
+                </button>
+            </form>
+        </td>
+    </tr>
+@endforeach
+
                                 </tbody>
                             </table>
                             </div>

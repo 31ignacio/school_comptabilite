@@ -99,7 +99,7 @@
             </tr>  
             <tr>
                 <th>Date Paiement</th>
-                <td>{{$fullPaymentInfo->created_at}}</td>
+                <td>{{ \Carbon\Carbon::parse($fullPaymentInfo->created_at)->format('d/m/Y') }}</td>
             </tr>
             <tr>
                 <th>Statut</th>

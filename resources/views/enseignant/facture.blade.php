@@ -90,13 +90,13 @@
                 <th>Montant Payé</th>
                 <td><b>{{ number_format($fullPaymentInfo->montant, 0, ',', ' ') }} FCFA</b></td>
             </tr>
-            <tr>
+            {{-- <tr>
                 <th>Reste à Payer</th>
                 <td><b>{{ number_format($fullPaymentInfo->ResteAPayer, 0, ',', ' ') }} FCFA</b></td>
-            </tr>  
+            </tr>   --}}
             <tr>
                 <th>Date Paiement</th>
-                <td>{{$fullPaymentInfo->created_at}}</td>
+                <td>{{ \Carbon\Carbon::parse($fullPaymentInfo->created_at)->format('d/m/Y') }}</td>
             </tr>
             <tr>
                 <th>Remarque</th>

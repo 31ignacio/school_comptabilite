@@ -40,20 +40,40 @@
           </ul>
         </div>
         <ul class="navbar-nav navbar-right">
-          <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+          <li class="dropdown dropdown-list-toggle">
+            <a href="#" data-toggle="dropdown"
               class="nav-link nav-link-lg message-toggle"><i data-feather="mail"></i>
               <span class="badge headerBadge1">
-                6 </span> </a>
+                  {{ auth()->user()->unreadNotifications->count() }}
+              </span>
+            </a>
             <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
               <div class="dropdown-header">
-                Messages
-                <div class="float-right">
-                  <a href="#">Mark All As Read</a>
-                </div>
+                  Notifications
+                  <div class="float-right">
+                      <a href="{{ route('notifications.markAllRead') }}">Tout marquer comme lu</a>
+                  </div>
               </div>
-              
+
+              <div class="dropdown-list-content dropdown-list-message">
+                  @forelse(auth()->user()->unreadNotifications as $notification)
+                      <a href="{{ $notification->data['url'] ?? '#' }}" class="dropdown-item">
+                          <span class="dropdown-item-desc">
+                              {!! $notification->data['message'] !!}
+                              <div class="time text-primary">
+                                  {{ $notification->created_at->diffForHumans() }}
+                              </div>
+                          </span>
+                      </a>
+                  @empty
+                      <div class="dropdown-item">Aucune nouvelle notification</div>
+                  @endforelse
+              </div>
             </div>
+
           </li>
+
+          
           
           <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
               class="nav-link notification-toggle nav-link-lg"><i data-feather="bell" class="bell"></i>
@@ -81,6 +101,8 @@
           </li>
         </ul>
       </nav>
+
+
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">

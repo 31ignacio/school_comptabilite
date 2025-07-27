@@ -41,7 +41,7 @@ class UtilisateurController extends Controller
             $user->email = $request->email;
             $user->telephone = $request->telephone;
             $user->role_id= $request->role;
-            $user->estActif= 0;
+            $user->estActif= 1;
             $user->password =Hash::make($request->password);
 
             $user->save();
@@ -90,4 +90,14 @@ class UtilisateurController extends Controller
             return back()->with('error_message', 'Une erreur est survenue. Veuillez réessayer.');
         }
     }
+
+
+    public function toggleStatus(User $user)
+    {
+        $user->estActif = !$user->estActif;
+        $user->save();
+
+        return redirect()->back()->with('success_message', 'Statut de l\'utilisateur mis à jour avec succès.');
+    }
+
 }
