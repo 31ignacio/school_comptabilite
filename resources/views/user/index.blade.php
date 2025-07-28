@@ -44,15 +44,15 @@
         </td>
         <td>{{ $user->telephone }}</td>
         <td>
-            <a class="btn-sm btn-warning m-1" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
-                <i class="fas fa-edit"></i> Editer
+            <a class="btn btn-sm btn-outline-warning rounded-pill m-2" title="Editer cet utilisateur" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
+                <i class="fas fa-edit"></i>
             </a>
 
             <form action="{{ route('user.delete', ['user' => $user->id]) }}" method="POST" style="display: inline;">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn-sm btn-danger m-1" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
-                    <i class="fas fa-trash-alt"></i> Supprimer
+                <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill m-2" title="Supprimer cet utilisateur" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
+                    <i class="fas fa-trash-alt"></i>
                 </button>
             </form>
 

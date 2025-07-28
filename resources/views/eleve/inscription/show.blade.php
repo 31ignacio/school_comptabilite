@@ -63,7 +63,7 @@
                                             <th>Date</th>
                                             <th>Montant payé</th>
                                             <th>Comptable</th>
-                                            <th>Annuler</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -74,18 +74,17 @@
                                                 <td>{{ number_format($paiement->montantPayer, 0, ',', ' ') }}</td>
                                                 <td>{{ $paiement->user->name }}</td>
                                                 <td>
-                                                    <a class="btn-sm btn-info m-2"
+                                                    <a class="btn btn-sm btn-outline-info rounded-pill m-2"
                                                         href="{{ route('paiement.download', $paiement->id) }}"
                                                         title="Imprimer la quittance">
-                                                        <i class="fas fa-print"></i>Imprimer
+                                                        <i class="fas fa-print"></i>
                                                     </a>
                                                     @if(auth()->user()->role_id== 1)
-                                                        <a href="#" class="btn-sm btn-danger" title="Annuler la quittance" data-toggle="modal"
+                                                        <a href="#" class="btn btn-sm btn-outline-danger rounded-pill m-2" title="Annuler la quittance" data-toggle="modal"
                                                             data-target="#confirmationModal" onclick="updateModal('{{ $paiement->id }}')">
-                                                            <i class="fas fa-times-circle me-1"></i> Annuler
+                                                            <i class="fas fa-times-circle me-1"></i>
                                                         </a>
-                                                    @endif
-                                                    
+                                                    @endif       
                                                 </td>
                                             </tr>
                                         @empty

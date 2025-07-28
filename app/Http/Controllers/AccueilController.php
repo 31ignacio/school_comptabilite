@@ -17,7 +17,6 @@ class AccueilController extends Controller
     
     public function index(Request $request)
     {
-
         // Récupérer l'année la plus récente
         $annee = AnneScolaire::orderBy('id', 'desc')->first();
 

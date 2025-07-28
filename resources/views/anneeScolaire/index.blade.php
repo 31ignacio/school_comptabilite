@@ -33,15 +33,15 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $annee->annee }}</td>
                                             <td>
-                                                <a class="btn-sm btn-warning m-3" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
-                                                    <i class="fas fa-edit"></i> Editer
+                                                <a class="btn btn-sm btn-outline-warning rounded-pill m-2" title="Editer l'année" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
+                                                    <i class="fas fa-edit"></i>
                                                 </a>
 
                                                 <form action="{{ route('annee.delete', ['annee' => $annee->id]) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette année scolaire ?')">
-                                                        <i class="fas fa-trash-alt"></i> Supprimer
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill m-2" title="Supprimer l'année" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette année scolaire ?')">
+                                                        <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                 </form>
 

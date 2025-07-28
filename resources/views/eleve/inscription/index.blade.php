@@ -90,18 +90,18 @@
                                                         {{ $inscription['solde'] }}
                                                     </td>
                                                     <td>
-                                                        <a href="{{ route('inscription.show', ['inscription' => $inscription['id']]) }}" class="btn-sm btn-info m-1">
-                                                            <i class="fas fa-eye"></i> Détails
+                                                        <a href="{{ route('inscription.show', ['inscription' => $inscription['id']]) }}" class="btn btn-sm btn-outline-info rounded-pill m-2" title="Voir les détails">
+                                                            <i class="fas fa-eye"></i>
                                                         </a>
-                                                        <button class="btn-sm btn-warning m-1" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
-                                                            <i class="fas fa-edit"></i> Éditer
+                                                        <button class="btn btn-sm btn-outline-warning rounded-pill m-2" title="Editer les informations de cet élève" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
+                                                            <i class="fas fa-edit"></i>
                                                         </button>
-                                                        @if(auth()->user()->role_id== 1)
+                                                        @if(auth()->user()->role_id==1)
                                                         <form action="{{ route('inscription.delete', ['inscription' => $inscription['id']]) }}" method="POST" style="display: inline;">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn-sm btn-danger m-1" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet élève ?')">
-                                                                <i class="fas fa-trash-alt"></i> Supprimer
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill m-2" title="Supprimer cet élève" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet élève ?')">
+                                                                <i class="fas fa-trash-alt"></i>
                                                             </button>
                                                         </form>
                                                         @endif

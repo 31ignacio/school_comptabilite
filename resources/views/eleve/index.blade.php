@@ -36,15 +36,15 @@
                                             <td>{{ $eleve->nom }}  {{ $eleve->prenom }}</td>
                                             <td>{{ $eleve->telephoneParent }}</td>
                                             <td>
-                                                <a class="btn-sm btn-warning m-3" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
-                                                    <i class="fas fa-edit"></i> Editer
+                                                <a class="btn btn-sm btn-outline-warning rounded-pill m-2" title="Editer cet élève" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
+                                                    <i class="fas fa-edit"></i>
                                                 </a>
                                                 @if(auth()->user()->role_id== 1)
                                                     <form action="{{ route('eleve.delete', ['eleve' => $eleve->id]) }}" method="POST" style="display: inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet élève ?')">
-                                                            <i class="fas fa-trash-alt"></i> Supprimer
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill m-2" title="Supprimet cet élève" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet élève ?')">
+                                                            <i class="fas fa-trash-alt"></i>
                                                         </button>
                                                     </form>
                                                 @endif

@@ -173,7 +173,9 @@
                             <td>
                               <div class="badge badge-danger badge-shadow">{{ $nonSolde['solde'] }}</div>
                             </td>
-                            <td><a href="{{ route('inscription.show', ['inscription' => $nonSolde['id']]) }}" class="btn btn-primary">Detail</a></td>
+                            <td>
+                              <a href="{{ route('inscription.show', ['inscription' => $nonSolde['id']]) }}" class="btn btn-sm btn-outline-primary rounded-pill m-2" title="Voir les détails"><i class="fas fa-eye"></i></a>
+                            </td>
                           </tr>
 
                         @endforeach

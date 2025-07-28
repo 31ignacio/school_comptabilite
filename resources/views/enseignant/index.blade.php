@@ -38,19 +38,18 @@
                                             <td>{{ $enseignant->telephone }}</td>
                                             <td>{{ number_format($enseignant->salaire ?? '0', 0, ',', '.') }} F</td>
                                             <td>
-
-                                                <a href="{{ route('enseignant.show', ['enseignant' => $enseignant['id']]) }}" class="btn-sm btn-info m-1" href="#">
-                                                    <i class="fas fa-eye"></i> Détails
+                                                <a href="{{ route('enseignant.show', ['enseignant' => $enseignant['id']]) }}" class="btn btn-sm btn-outline-info rounded-pill m-2" title="Voir les détails" href="#">
+                                                    <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a class="btn-sm btn-warning m-3" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
-                                                    <i class="fas fa-edit"></i> Editer
+                                                <a class="btn btn-sm btn-outline-warning rounded-pill m-2" title="Editer ces informations" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
+                                                    <i class="fas fa-edit"></i>
                                                 </a>
                                                 @if(auth()->user()->role_id== 1)
                                                     <form action="{{ route('enseignant.delete', ['enseignant' => $enseignant->id]) }}" method="POST" style="display: inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet enseignant ?')">
-                                                            <i class="fas fa-trash-alt"></i> Supprimer
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill m-2" title="Supprimer cet enseignant" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet enseignant ?')">
+                                                            <i class="fas fa-trash-alt"></i>
                                                         </button>
                                                     </form>
                                                 @endif

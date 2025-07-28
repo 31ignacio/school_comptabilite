@@ -35,15 +35,15 @@
                                             <td>{{ $classe->nom }}</td>
                                             <td>{{ number_format($classe->scolarite, 0, ',', '.') }} CFA</td>
                                             <td>
-                                                <a class="btn-sm btn-warning m-3" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
-                                                    <i class="fas fa-edit"></i> Editer
+                                                <a class="btn btn-sm btn-outline-warning rounded-pill m-2" title="Editer la classe" href="#" data-toggle="modal" data-target="#editEntry{{ $loop->iteration }}">
+                                                    <i class="fas fa-edit"></i>
                                                 </a>
 
                                                 <form action="{{ route('classe.delete', ['classe' => $classe->id]) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette classe ?')">
-                                                        <i class="fas fa-trash-alt"></i> Supprimer
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill m-2" title="Supprimer la classe" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette classe ?')">
+                                                        <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                 </form>
 
